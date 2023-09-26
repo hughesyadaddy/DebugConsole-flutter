@@ -3,7 +3,7 @@ part of debug_console;
 /// A widget that adds a floating button for debugging purposes.
 class DebugConsolePopup extends StatefulWidget {
   final Widget child;
-
+  final GlobalKey<NavigatorState> navigatorKey;
   final bool showButton;
 
   final DebugConsoleController controller;
@@ -14,15 +14,13 @@ class DebugConsolePopup extends StatefulWidget {
   DebugConsolePopup({
     super.key,
     required this.child,
-
+    required this.navigatorKey,
     this.showButton = true,
-    
     DebugConsoleController? controller,
     this.actions = const [],
     this.expandStackTrace = false,
     this.savePath,
-  }) :
-    controller = controller ?? DebugConsole.instance;
+  }) : controller = controller ?? DebugConsole.instance;
 
   @override
   State<DebugConsolePopup> createState() => _DebugConsolePopupState();
@@ -49,11 +47,11 @@ class _DebugConsolePopupState extends State<DebugConsolePopup> {
     );
   }
 
-  void popup([ bool? open ]) {
+  void popup([bool? open]) {
     open ??= !isOpen;
     if (open == isOpen) return;
     if (open) {
-      Navigator.push(
+      widget.navigatorKey.currentState.push(
         context,
         MaterialPageRoute(
           builder: (context) => WillPopScope(
@@ -71,7 +69,7 @@ class _DebugConsolePopupState extends State<DebugConsolePopup> {
         ),
       );
     } else {
-      Navigator.pop(context);
+      widget.navigatorKey.currentState.pop(context);
     }
     isOpen = open;
   }
