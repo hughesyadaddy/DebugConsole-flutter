@@ -52,7 +52,6 @@ class _DebugConsolePopupState extends State<DebugConsolePopup> {
     if (open == isOpen) return;
     if (open) {
       widget.navigatorKey.currentState.push(
-        context,
         MaterialPageRoute(
           builder: (context) => WillPopScope(
             onWillPop: () async {
@@ -69,7 +68,7 @@ class _DebugConsolePopupState extends State<DebugConsolePopup> {
         ),
       );
     } else {
-      widget.navigatorKey.currentState.pop(context);
+      widget.navigatorKey.currentState.pop();
     }
     isOpen = open;
   }
