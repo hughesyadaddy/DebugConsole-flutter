@@ -58,11 +58,14 @@ class _DebugConsolePopupState extends State<DebugConsolePopup> {
               isOpen = false;
               return true;
             },
-            child: DebugConsole(
-              controller: widget.controller,
-              actions: widget.actions,
-              expandStackTrace: widget.expandStackTrace,
-              savePath: widget.savePath,
+            child: Theme(
+              data: ThemeData(),
+              child: DebugConsole(
+                controller: widget.controller,
+                actions: widget.actions,
+                expandStackTrace: widget.expandStackTrace,
+                savePath: widget.savePath,
+              ),
             ),
           ),
         ),
