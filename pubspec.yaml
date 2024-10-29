@@ -11,7 +11,7 @@ dependencies:
   expandable: ^5.0.1
   flutter:
     sdk: flutter
-  rxdart: ^0.27.4
+  rxdart: ^0.28.0
 
 dev_dependencies:
   flutter_test:
