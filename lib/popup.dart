@@ -35,13 +35,8 @@ class _DebugConsolePopupState extends State<DebugConsolePopup> {
       children: [
         widget.child,
         if (widget.showButton)
-          Positioned(
-            right: 15,
-            bottom: 15,
-            child: FloatingActionButton(
-              child: const Icon(Icons.bug_report),
-              onPressed: () => popup(true),
-            ),
+          _DraggableDebugButton(
+            onPressed: () => popup(true),
           ),
       ],
     );
@@ -74,5 +69,46 @@ class _DebugConsolePopupState extends State<DebugConsolePopup> {
       widget.navigatorKey.currentState?.pop();
     }
     isOpen = open;
+  }
+}
+
+class _DraggableDebugButton extends StatefulWidget {
+  final VoidCallback onPressed;
+
+  const _DraggableDebugButton({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  State<_DraggableDebugButton> createState() => _DraggableDebugButtonState();
+}
+
+class _DraggableDebugButtonState extends State<_DraggableDebugButton> {
+  Offset buttonPosition = const Offset(15, 15);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 0),
+      right: buttonPosition.dx,
+      bottom: buttonPosition.dy,
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          setState(() {
+            buttonPosition = Offset(
+              (buttonPosition.dx - details.delta.dx)
+                  .clamp(0, MediaQuery.of(context).size.width - 56),
+              (buttonPosition.dy - details.delta.dy)
+                  .clamp(0, MediaQuery.of(context).size.height - 56),
+            );
+          });
+        },
+        child: FloatingActionButton(
+          child: const Icon(Icons.bug_report),
+          onPressed: widget.onPressed,
+        ),
+      ),
+    );
   }
 }
