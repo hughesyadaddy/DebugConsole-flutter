@@ -89,8 +89,7 @@ class _DraggableDebugButtonState extends State<_DraggableDebugButton> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedPositioned(
-      duration: const Duration(milliseconds: 0),
+    return Positioned(
       right: buttonPosition.dx,
       bottom: buttonPosition.dy,
       child: GestureDetector(
